@@ -21,6 +21,8 @@ module.exports = function (mongoose, throwErrors) {
 //        }
         var model = mongoose.originalModel.call(mongoose, name, schema, collection, skipInit);
         mock(model);
+        var connection = this.connection || mongoose.connection;
+        connection.collections[model.collection.name] = model.collection;
         if(model.schema.options.autoIndex){
             model.ensureIndexes();
         }
